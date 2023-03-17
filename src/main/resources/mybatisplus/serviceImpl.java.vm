@@ -1,0 +1,39 @@
+package ${package.ServiceImpl};
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.BeanUtils;
+import com.cps.csp.work.domain.vo.${entity}Vo;
+import com.cps.csp.work.domain.query.${entity}Query;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.cps.csp.work.service.I${entity}Service;
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+#if(${table.serviceInterface})
+import ${package.Service}.${table.serviceName};
+#end
+import ${superServiceImplClassPackage};
+import org.springframework.stereotype.Service;
+
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>()#if(${table.serviceInterface}), ${table.serviceName}#end {
+
+}
+#else
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+        @Override
+        public IPage<${entity}Vo> selectAll(${entity}Query query) {
+            ${entity} entity = new ${entity}();
+            BeanUtils.copyProperties(query,entity);
+            IPage page = null;//this.page(new Page(query.getCurrent(),query.getSize()),new QueryWrapper<>(entity));
+            return page;
+        }
+}
+#end
